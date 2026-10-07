@@ -2,6 +2,7 @@
 // Logic thuần nằm ở các module riêng (validation.js, ...).
 import { validateSubject } from './validation.js';
 import { convertScore } from './grading.js';
+import { calculateSummary } from './gpa.js';
 
 const FIELDS = ['name', 'credits', 'score'];
 
@@ -18,6 +19,15 @@ const errorEls = {
 };
 const tbody = document.getElementById('subjects-tbody');
 const tableEmptyMsg = document.getElementById('table-empty-msg');
+const stats = {
+  totalSubjects: document.getElementById('stat-total-subjects'),
+  totalCredits: document.getElementById('stat-total-credits'),
+  passedCredits: document.getElementById('stat-passed-credits'),
+  gpa4: document.getElementById('stat-gpa4'),
+  gpa10: document.getElementById('stat-gpa10'),
+  rank: document.getElementById('stat-rank'),
+};
+const emptyHint = document.getElementById('empty-hint');
 
 /** @type {{ name: string, credits: number, score: number }[]} */
 const subjects = [];
@@ -72,8 +82,26 @@ function renderTable() {
   tableEmptyMsg.hidden = subjects.length > 0;
 }
 
+function renderSummary() {
+  const summary = calculateSummary(subjects);
+  emptyHint.hidden = summary !== null;
+
+  if (summary === null) {
+    for (const el of Object.values(stats)) el.textContent = '—';
+    return;
+  }
+
+  stats.totalSubjects.textContent = String(summary.totalSubjects);
+  stats.totalCredits.textContent = String(summary.totalCredits);
+  stats.passedCredits.textContent = String(summary.passedCredits);
+  stats.gpa4.textContent = summary.gpa4.toFixed(2);
+  stats.gpa10.textContent = summary.gpa10.toFixed(2);
+  stats.rank.textContent = summary.rank;
+}
+
 function render() {
   renderTable();
+  renderSummary();
 }
 
 form.addEventListener('submit', (event) => {

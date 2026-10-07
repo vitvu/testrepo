@@ -3,13 +3,13 @@
 _Cập nhật lần cuối: 2026-10-07_
 
 ## Giai đoạn hiện tại
-**Giai đoạn 3 – Cài đặt & kiểm thử tự động** (F1, F2 xong, tiếp theo F3)
+**Giai đoạn 3 – Cài đặt & kiểm thử tự động** (F1–F3 xong, tiếp theo F4)
 
 | # | Giai đoạn | Trạng thái | Ghi chú |
 |---|-----------|------------|---------|
 | 1 | Yêu cầu (`PRD.md`) | ✅ Xong | |
 | 2 | Thiết kế (`DESIGN.md`, Mermaid) | ✅ Xong | Người dùng đã duyệt 2026-10-07 |
-| 3 | Cài đặt & kiểm thử tự động | 🟡 Đang làm | F1, F2 xong |
+| 3 | Cài đặt & kiểm thử tự động | 🟡 Đang làm | F1–F3 xong |
 | 4 | Kiểm thử người dùng | ⬜ Chưa làm | Người dùng thực hiện |
 | 5 | Deploy Vercel | ⬜ Chưa làm | URL: — |
 
@@ -18,7 +18,7 @@ _Cập nhật lần cuối: 2026-10-07_
 |----|-----------|----------|---------|--------------|-----|
 | F1 | Thêm môn học | ✅ | ✅ | ✅ | ⬜ |
 | F2 | Quy đổi điểm | ✅ | ✅ | ✅ | ⬜ |
-| F3 | Tính GPA & xếp loại | ✅ | ⬜ | ⬜ | ⬜ |
+| F3 | Tính GPA & xếp loại | ✅ | ✅ | ✅ | ⬜ |
 | F4 | Sửa/xoá môn | ✅ | ⬜ | ⬜ | ⬜ |
 | F5 | Lưu dữ liệu | ✅ | ⬜ | ⬜ | ⬜ |
 
@@ -33,6 +33,7 @@ _Cập nhật lần cuối: 2026-10-07_
 | 2026-10-07 | Mỗi chức năng làm trên một nhánh riêng, chỉ merge vào `main` khi `npm test` và `npm run build` đều đạt | Theo yêu cầu của chủ dự án, ghi trong `CLAUDE.md` |
 | 2026-10-07 | Chốt các quy ước D1–D8 trong `DESIGN.md` cho những chỗ PRD chưa nói rõ (làm tròn điểm trước khi quy đổi, xếp loại theo GPA đã làm tròn, xử lý xoá khi đang sửa, ...) | Để cài đặt và viết test không phải đoán |
 | 2026-10-07 | Chỉ lưu tên, tín chỉ, điểm hệ 10; điểm chữ và hệ 4 luôn tính lại | Tránh dữ liệu lưu bị lệch với bảng quy đổi |
+| 2026-10-07 | GPA làm tròn 2 chữ số bằng `Math.round((x + Number.EPSILON) * 100) / 100` | Tránh sai số dấu phẩy động (2.675 phải ra 2.68) |
 | 2026-10-07 | Làm tròn điểm bằng ký hiệu mũ (`Number(Math.round(x + 'e1') + 'e-1')`) thay vì `Math.round(x * 10) / 10` | Tránh sai số dấu phẩy động, ví dụ 8.45 phải ra 8.5 |
 | 2026-10-07 | Điểm lớn hơn 10 bị báo lỗi kể cả khi làm tròn sẽ ra 10 (ví dụ `10.04`) | PRD yêu cầu điểm trong khoảng 0–10, kiểm tra trên giá trị người dùng nhập |
 | 2026-10-07 | Ô tín chỉ (`type=number`) gõ chữ thì báo "phải là số nguyên", không báo "bỏ trống" | Trình duyệt trả `""` cho cả hai trường hợp; dùng `validity.badInput` để phân biệt |
