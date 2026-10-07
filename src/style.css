@@ -285,3 +285,11 @@ th {
   text-align: center;
   color: var(--color-muted);
 }
+
+.row-actions .btn + .btn {
+  margin-left: 6px;
+}
+
+tr.row--editing td {
+  background: var(--color-highlight);
+}

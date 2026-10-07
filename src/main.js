@@ -3,10 +3,21 @@
 import { validateSubject } from './validation.js';
 import { convertScore } from './grading.js';
 import { calculateSummary } from './gpa.js';
+import { addSubject, updateSubject, removeSubject } from './subjects.js';
 
 const FIELDS = ['name', 'credits', 'score'];
+const LABELS = {
+  addTitle: 'Thêm môn học',
+  editTitle: 'Sửa môn học',
+  addButton: '➕ Thêm môn',
+  saveButton: '💾 Lưu',
+};
 
 const form = document.getElementById('subject-form');
+const formTitle = document.getElementById('form-title');
+const editIndexInput = document.getElementById('edit-index');
+const submitBtn = document.getElementById('submit-btn');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const inputs = {
   name: document.getElementById('subject-name'),
   credits: document.getElementById('subject-credits'),
@@ -30,7 +41,9 @@ const stats = {
 const emptyHint = document.getElementById('empty-hint');
 
 /** @type {{ name: string, credits: number, score: number }[]} */
-const subjects = [];
+let subjects = [];
+/** Dòng đang sửa, null khi ở chế độ thêm. Ghi kèm vào ô ẩn #edit-index. */
+let editIndex = null;
 
 function clearErrors() {
   for (const field of FIELDS) {
@@ -56,6 +69,43 @@ function resetForm() {
   inputs.name.focus();
 }
 
+function setEditIndex(index) {
+  editIndex = index;
+  editIndexInput.value = index === null ? '' : String(index);
+}
+
+function enterEditMode(index) {
+  const subject = subjects[index];
+  setEditIndex(index);
+  clearErrors();
+  inputs.name.value = subject.name;
+  inputs.credits.value = String(subject.credits);
+  inputs.score.value = String(subject.score);
+  formTitle.textContent = LABELS.editTitle;
+  submitBtn.textContent = LABELS.saveButton;
+  cancelEditBtn.hidden = false;
+  renderTable();
+  inputs.name.focus();
+}
+
+function exitEditMode() {
+  setEditIndex(null);
+  formTitle.textContent = LABELS.addTitle;
+  submitBtn.textContent = LABELS.addButton;
+  cancelEditBtn.hidden = true;
+  resetForm();
+}
+
+function createActionButton(label, action, index, variant) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = `btn btn--sm ${variant}`;
+  button.textContent = label;
+  button.dataset.action = action;
+  button.dataset.index = String(index);
+  return button;
+}
+
 function createCell(text) {
   const td = document.createElement('td');
   td.textContent = text;
@@ -67,6 +117,15 @@ function renderTable() {
     ...subjects.map((subject, index) => {
       const { letter, gpa4 } = convertScore(subject.score);
       const tr = document.createElement('tr');
+      if (index === editIndex) tr.classList.add('row--editing');
+
+      const actions = document.createElement('td');
+      actions.className = 'row-actions';
+      actions.append(
+        createActionButton('✏️ Sửa', 'edit', index, 'btn--secondary'),
+        createActionButton('🗑️ Xoá', 'delete', index, 'btn--danger'),
+      );
+
       tr.append(
         createCell(String(index + 1)),
         createCell(subject.name),
@@ -74,7 +133,7 @@ function renderTable() {
         createCell(subject.score.toFixed(1)),
         createCell(letter),
         createCell(gpa4.toFixed(1)),
-        createCell(''), // Sửa/Xoá: F4
+        actions,
       );
       return tr;
     }),
@@ -120,9 +179,40 @@ form.addEventListener('submit', (event) => {
     return;
   }
 
-  subjects.push(result.value);
+  if (editIndex === null) {
+    subjects = addSubject(subjects, result.value);
+    render();
+    resetForm();
+  } else {
+    subjects = updateSubject(subjects, editIndex, result.value);
+    exitEditMode();
+    render();
+  }
+});
+
+cancelEditBtn.addEventListener('click', () => {
+  exitEditMode();
+  renderTable();
+});
+
+function deleteSubject(index) {
+  const { name } = subjects[index];
+  if (!window.confirm(`Bạn có chắc muốn xoá môn "${name}"?`)) return;
+
+  const wasEditing = editIndex !== null;
+  const result = removeSubject(subjects, index, editIndex);
+  subjects = result.subjects;
+  if (wasEditing && result.editIndex === null) exitEditMode();
+  else setEditIndex(result.editIndex);
   render();
-  resetForm();
+}
+
+tbody.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-action]');
+  if (!button) return;
+  const index = Number(button.dataset.index);
+  if (button.dataset.action === 'edit') enterEditMode(index);
+  else if (button.dataset.action === 'delete') deleteSubject(index);
 });
 
 render();
