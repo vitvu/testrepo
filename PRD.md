@@ -62,7 +62,7 @@ tích lũy (GPA) hệ 4 và hệ 10, cùng xếp loại học lực. Không cầ
 ## 4. Danh sách chức năng & trạng thái
 | STT | Chức năng       | Mã  | Phụ thuộc | Trạng thái |
 |-----|-----------------|-----|-----------|------------|
-| 1   | Thêm môn học    | F1  | –         | [ ] Chưa làm |
+| 1   | Thêm môn học    | F1  | –         | [x] Xong (chờ UAT) |
 | 2   | Quy đổi điểm    | F2  | F1        | [ ] Chưa làm |
 | 3   | Tính GPA        | F3  | F2        | [ ] Chưa làm |
 | 4   | Sửa/xoá môn     | F4  | F1        | [ ] Chưa làm |

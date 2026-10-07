@@ -46,7 +46,7 @@ npx vitest run -t "test name"           # tests matching a name
 
 ## Architecture
 
-- `index.html` is the Vite entry and already contains the full static markup. It loads `/src/style.css` and `/src/main.js`, **neither of which exists yet**. JS should bind to the existing element IDs rather than generate the layout:
+- `index.html` is the Vite entry and already contains the full static markup. It loads `/src/style.css` and `/src/main.js`. JS should bind to the existing element IDs rather than generate the layout:
   - Form: `#subject-form`, inputs `#subject-name`, `#subject-credits`, `#subject-score`, per-field error spans `#err-name`, `#err-credits`, `#err-score`, hidden `#edit-index` (holds the row index while editing), `#submit-btn` (label switches between "Thêm môn" and "Lưu"), `#cancel-edit-btn`, `#form-title`.
   - Summary: `#stat-total-subjects`, `#stat-total-credits`, `#stat-passed-credits`, `#stat-gpa4`, `#stat-gpa10`, `#stat-rank`, `#empty-hint` (all show "—" when empty).
   - Table: `#subjects-tbody` (rows rendered by JS), `#table-empty-msg`, `#clear-all-btn`.
@@ -57,9 +57,9 @@ npx vitest run -t "test name"           # tests matching a name
 ## Project structure
 
 - `index.html`: app markup / Vite entry
-- `src/`: (to be created) `main.js`, `style.css`, logic modules and tests
+- `src/`: `main.js` (DOM wiring), `style.css`, pure logic modules (`validation.js`, ...) with colocated `*.test.js`
 - `PRD.md`: requirements and feature status
-- `DESIGN.md`: (to be created) Mermaid business-flow flowcharts
+- `DESIGN.md`: Mermaid business-flow flowcharts and design conventions D1–D8
 - `PLAN.md` / `STATUS.md`: waterfall plan; current status, decisions and change log
 - `.claude/commands/`: project slash commands (commit, push, pull, merge, git-branch, wrap-up, learn-by-mistake, new-project)
 - `new-app/`: currently empty
