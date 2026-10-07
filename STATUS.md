@@ -3,24 +3,24 @@
 _Cập nhật lần cuối: 2026-10-07_
 
 ## Giai đoạn hiện tại
-**Giai đoạn 4 – Kiểm thử người dùng (UAT)** (chờ người dùng kiểm thử)
+**Giai đoạn 5 – Deploy Vercel** (đang deploy)
 
 | # | Giai đoạn | Trạng thái | Ghi chú |
 |---|-----------|------------|---------|
 | 1 | Yêu cầu (`PRD.md`) | ✅ Xong | |
 | 2 | Thiết kế (`DESIGN.md`, Mermaid) | ✅ Xong | Người dùng đã duyệt 2026-10-07 |
 | 3 | Cài đặt & kiểm thử tự động | ✅ Xong | F1–F5 xong; 151 test đạt, `npm run build` thành công |
-| 4 | Kiểm thử người dùng | 🟡 Chờ người dùng | Chạy `npm run dev` hoặc `npm run build && npm run preview` |
+| 4 | Kiểm thử người dùng | ✅ Đạt | Người dùng xác nhận đạt 2026-10-07 |
 | 5 | Deploy Vercel | ⬜ Chưa làm | URL: — |
 
 ## Trạng thái chức năng
 | Mã | Chức năng | Thiết kế | Cài đặt | Test tự động | UAT |
 |----|-----------|----------|---------|--------------|-----|
-| F1 | Thêm môn học | ✅ | ✅ | ✅ | ⬜ |
-| F2 | Quy đổi điểm | ✅ | ✅ | ✅ | ⬜ |
-| F3 | Tính GPA & xếp loại | ✅ | ✅ | ✅ | ⬜ |
-| F4 | Sửa/xoá môn | ✅ | ✅ | ✅ | ⬜ |
-| F5 | Lưu dữ liệu | ✅ | ✅ | ✅ | ⬜ |
+| F1 | Thêm môn học | ✅ | ✅ | ✅ | ✅ |
+| F2 | Quy đổi điểm | ✅ | ✅ | ✅ | ✅ |
+| F3 | Tính GPA & xếp loại | ✅ | ✅ | ✅ | ✅ |
+| F4 | Sửa/xoá môn | ✅ | ✅ | ✅ | ✅ |
+| F5 | Lưu dữ liệu | ✅ | ✅ | ✅ | ✅ |
 
 ## Quyết định kỹ thuật
 | Ngày | Quyết định | Lý do |
