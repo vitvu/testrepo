@@ -67,22 +67,3 @@ tích lũy (GPA) hệ 4 và hệ 10, cùng xếp loại học lực. Không cầ
 | 3   | Tính GPA        | F3  | F2        | [ ] Chưa làm |
 | 4   | Sửa/xoá môn     | F4  | F1        | [ ] Chưa làm |
 | 5   | Lưu dữ liệu     | F5  | F1, F4    | [ ] Chưa làm |
-
-## 5. Tiêu chí nghiệm thu
-- Tất cả unit test trong tests/ chạy qua (npm test).
-- npm run build không lỗi; trang chạy được trên URL Vercel.
-- Đạt toàn bộ test case nghiệm thu ở mục 6.
-
-## 6. Test case nghiệm thu
-| ID   | Bước thực hiện                                          | Kết quả mong đợi                                  |
-|------|---------------------------------------------------------|---------------------------------------------------|
-| TC01 | Thêm "Toán cao cấp", 3 tín chỉ, điểm 8,5                | 1 dòng: 8.5 – A – 4.0; GPA 4.00 – Xuất sắc         |
-| TC02 | Để trống tên môn, nhấn Thêm                             | Lỗi "Tên môn không hợp lệ", không thêm dòng       |
-| TC03 | Tín chỉ = 0, 11, 2.5, "abc"                             | Lỗi "Số tín chỉ không hợp lệ"                     |
-| TC04 | Điểm = -1, 10.5, "abc"                                  | Lỗi "Điểm không hợp lệ"                           |
-| TC05 | Thêm 3TC/9 điểm và 2TC/6 điểm                           | GPA hệ 4 = 3.20 – Giỏi; tổng tín chỉ 5            |
-| TC06 | Sửa môn 2TC thành điểm 3.5                              | Môn chuyển F; tín chỉ đạt giảm; GPA 2.40          |
-| TC07 | Xoá một môn, chọn Huỷ ở hộp xác nhận                    | Không xoá                                         |
-| TC08 | Tải lại trang (F5)                                      | Dữ liệu còn nguyên                                |
-| TC09 | Sửa localStorage "gpa-tracker:v1" thành "abc", tải lại  | Trang vẫn hiện, danh sách rỗng, không trắng trang |
-| TC10 | Mở ở độ rộng 375px                                      | Không vỡ bố cục, không cuộn ngang                 |
