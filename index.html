@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPA Tracker – Tính điểm trung bình tích lũy</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <h1>🎓 GPA Tracker</h1>
+        <p class="subtitle">Tính điểm trung bình tích lũy hệ 4 &amp; hệ 10</p>
+      </header>
+
+      <main class="app-main">
+        <!-- Form thêm/sửa môn học -->
+        <section class="form-section" aria-label="Form thêm môn học">
+          <h2 id="form-title">Thêm môn học</h2>
+          <form id="subject-form" novalidate>
+            <input type="hidden" id="edit-index" value="" />
+
+            <div class="form-row">
+              <div class="field-group">
+                <label for="subject-name">Tên môn học <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="subject-name"
+                  placeholder="Ví dụ: Toán Giải tích"
+                  maxlength="100"
+                  autocomplete="off"
+                />
+                <span class="field-error" id="err-name" role="alert"></span>
+              </div>
+
+              <div class="field-group field-group--small">
+                <label for="subject-credits">Số tín chỉ <span class="required">*</span></label>
+                <input
+                  type="number"
+                  id="subject-credits"
+                  placeholder="1–10"
+                  min="1"
+                  max="10"
+                  step="1"
+                />
+                <span class="field-error" id="err-credits" role="alert"></span>
+              </div>
+
+              <div class="field-group field-group--small">
+                <label for="subject-score">Điểm hệ 10 <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="subject-score"
+                  placeholder="0–10"
+                />
+                <span class="field-error" id="err-score" role="alert"></span>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="submit-btn" class="btn btn--primary">
+                ➕ Thêm môn
+              </button>
+              <button type="button" id="cancel-edit-btn" class="btn btn--secondary" hidden>
+                ✕ Hủy
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Bảng thống kê GPA -->
+        <section class="summary-section" aria-label="Thống kê GPA">
+          <div class="summary-grid">
+            <div class="stat-card">
+              <div class="stat-label">Tổng môn</div>
+              <div class="stat-value" id="stat-total-subjects">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Tổng tín chỉ</div>
+              <div class="stat-value" id="stat-total-credits">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Tín chỉ đạt</div>
+              <div class="stat-value" id="stat-passed-credits">—</div>
+            </div>
+            <div class="stat-card stat-card--highlight">
+              <div class="stat-label">GPA hệ 4</div>
+              <div class="stat-value" id="stat-gpa4">—</div>
+            </div>
+            <div class="stat-card stat-card--highlight">
+              <div class="stat-label">GPA hệ 10</div>
+              <div class="stat-value" id="stat-gpa10">—</div>
+            </div>
+            <div class="stat-card stat-card--rank">
+              <div class="stat-label">Xếp loại</div>
+              <div class="stat-value" id="stat-rank">—</div>
+            </div>
+          </div>
+          <p id="empty-hint" class="empty-hint">Hãy thêm môn học đầu tiên ✏️</p>
+        </section>
+
+        <!-- Bảng danh sách môn học -->
+        <section class="table-section" aria-label="Danh sách môn học">
+          <div class="table-header">
+            <h2>Danh sách môn học</h2>
+            <button type="button" id="clear-all-btn" class="btn btn--danger btn--sm">
+              🗑️ Xoá tất cả
+            </button>
+          </div>
+          <div class="table-wrapper">
+            <table id="subjects-table" aria-label="Danh sách các môn học">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Tên môn</th>
+                  <th>Tín chỉ</th>
+                  <th>Điểm hệ 10</th>
+                  <th>Điểm chữ</th>
+                  <th>GPA hệ 4</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="subjects-tbody">
+                <!-- Dữ liệu sẽ được render bởi JS -->
+              </tbody>
+            </table>
+          </div>
+          <p id="table-empty-msg" class="table-empty-msg" hidden>Chưa có môn học nào.</p>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>Dữ liệu được lưu trên trình duyệt của bạn • GPA Tracker v1.0</p>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
