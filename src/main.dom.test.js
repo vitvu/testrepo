@@ -25,7 +25,20 @@ const cells = (row) => [...row.querySelectorAll('td')].slice(0, 6).map((td) => t
 const clickRowButton = (rowIndex, action) =>
   rows()[rowIndex].querySelector(`button[data-action="${action}"]`).click();
 
+// Storage giả trong bộ nhớ: Node ≥ 22 có sẵn biến localStorage riêng, có thể là undefined và
+// che mất localStorage của jsdom, nên không dựa vào môi trường.
+function createMemoryStorage() {
+  const data = new Map();
+  return {
+    getItem: (key) => (data.has(key) ? data.get(key) : null),
+    setItem: (key, value) => data.set(key, String(value)),
+    removeItem: (key) => data.delete(key),
+    clear: () => data.clear(),
+  };
+}
+
 beforeEach(async () => {
+  vi.stubGlobal('localStorage', createMemoryStorage());
   window.confirm = vi.fn(() => true);
   await loadApp();
 });
@@ -161,5 +174,70 @@ describe('F4 – xoá môn', () => {
     expect($('edit-index').value).toBe('1');
     submit('Hoá 2', '1', '6');
     expect(rows().map((r) => cells(r)[1])).toEqual(['Lý', 'Hoá 2']);
+  });
+});
+
+describe('F5 – lưu dữ liệu', () => {
+  it('tải lại trang không mất dữ liệu, kể cả sau khi sửa và xoá', async () => {
+    submit('Toán', '3', '9');
+    submit('Lý', '2', '7');
+    submit('Hoá', '1', '5');
+    clickRowButton(0, 'edit');
+    submit('Toán 2', '4', '8');
+    clickRowButton(1, 'delete');
+
+    await loadApp();
+    expect(rows().map((r) => cells(r)[1])).toEqual(['Toán 2', 'Hoá']);
+    expect($('stat-total-credits').textContent).toBe('5');
+  });
+
+  it('lưu vào key gpa-tracker:v1', () => {
+    submit('Toán', '3', '8,5');
+    expect(JSON.parse(localStorage.getItem('gpa-tracker:v1'))).toEqual([
+      { name: 'Toán', credits: 3, score: 8.5 },
+    ]);
+  });
+
+  it('dữ liệu hỏng thì khởi tạo rỗng và trang vẫn dùng được', async () => {
+    localStorage.setItem('gpa-tracker:v1', '{hỏng');
+    await loadApp();
+    expect(rows()).toHaveLength(0);
+    expect($('stat-gpa4').textContent).toBe('—');
+    submit('Toán', '3', '9');
+    expect(rows()).toHaveLength(1);
+  });
+});
+
+describe('F5 – xoá tất cả', () => {
+  it('danh sách rỗng thì không hỏi xác nhận (D6)', () => {
+    $('clear-all-btn').click();
+    expect(window.confirm).not.toHaveBeenCalled();
+  });
+
+  it('hỏi xác nhận, xoá hết, lưu lại và hiện "—"', async () => {
+    submit('Toán', '3', '9');
+    submit('Lý', '2', '7');
+    $('clear-all-btn').click();
+    expect(window.confirm).toHaveBeenCalledWith('Bạn có chắc muốn xoá tất cả môn học?');
+    expect(rows()).toHaveLength(0);
+    expect($('table-empty-msg').hidden).toBe(false);
+    expect($('stat-rank').textContent).toBe('—');
+    await loadApp();
+    expect(rows()).toHaveLength(0);
+  });
+
+  it('từ chối thì giữ nguyên', () => {
+    submit('Toán', '3', '9');
+    window.confirm.mockReturnValue(false);
+    $('clear-all-btn').click();
+    expect(rows()).toHaveLength(1);
+  });
+
+  it('đang sửa thì thoát chế độ sửa', () => {
+    submit('Toán', '3', '9');
+    clickRowButton(0, 'edit');
+    $('clear-all-btn').click();
+    expect($('edit-index').value).toBe('');
+    expect($('cancel-edit-btn').hidden).toBe(true);
   });
 });

@@ -57,7 +57,7 @@ npx vitest run -t "test name"           # tests matching a name
 ## Project structure
 
 - `index.html`: app markup / Vite entry
-- `src/`: `main.js` (DOM wiring), `style.css`, pure logic modules (`validation.js`, ...) with colocated `*.test.js`
+- `src/`: `main.js` (DOM wiring), `style.css`, pure logic modules (`validation.js`, `grading.js`, `gpa.js`, `subjects.js`, `storage.js`) with colocated `*.test.js`; `main.dom.test.js` runs `main.js` against the real `index.html` markup in jsdom
 - `PRD.md`: requirements and feature status
 - `DESIGN.md`: Mermaid business-flow flowcharts and design conventions D1–D8
 - `PLAN.md` / `STATUS.md`: waterfall plan; current status, decisions and change log

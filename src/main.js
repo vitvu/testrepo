@@ -4,6 +4,7 @@ import { validateSubject } from './validation.js';
 import { convertScore } from './grading.js';
 import { calculateSummary } from './gpa.js';
 import { addSubject, updateSubject, removeSubject } from './subjects.js';
+import { loadSubjects, saveSubjects } from './storage.js';
 
 const FIELDS = ['name', 'credits', 'score'];
 const LABELS = {
@@ -39,9 +40,10 @@ const stats = {
   rank: document.getElementById('stat-rank'),
 };
 const emptyHint = document.getElementById('empty-hint');
+const clearAllBtn = document.getElementById('clear-all-btn');
 
 /** @type {{ name: string, credits: number, score: number }[]} */
-let subjects = [];
+let subjects = loadSubjects();
 /** Dòng đang sửa, null khi ở chế độ thêm. Ghi kèm vào ô ẩn #edit-index. */
 let editIndex = null;
 
@@ -163,6 +165,13 @@ function render() {
   renderSummary();
 }
 
+/** Cập nhật danh sách, lưu localStorage (F5) rồi vẽ lại. */
+function setSubjects(next) {
+  subjects = next;
+  saveSubjects(subjects);
+  render();
+}
+
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   clearErrors();
@@ -180,13 +189,12 @@ form.addEventListener('submit', (event) => {
   }
 
   if (editIndex === null) {
-    subjects = addSubject(subjects, result.value);
-    render();
+    setSubjects(addSubject(subjects, result.value));
     resetForm();
   } else {
-    subjects = updateSubject(subjects, editIndex, result.value);
+    const index = editIndex;
     exitEditMode();
-    render();
+    setSubjects(updateSubject(subjects, index, result.value));
   }
 });
 
@@ -201,11 +209,17 @@ function deleteSubject(index) {
 
   const wasEditing = editIndex !== null;
   const result = removeSubject(subjects, index, editIndex);
-  subjects = result.subjects;
   if (wasEditing && result.editIndex === null) exitEditMode();
   else setEditIndex(result.editIndex);
-  render();
+  setSubjects(result.subjects);
 }
+
+clearAllBtn.addEventListener('click', () => {
+  if (subjects.length === 0) return; // D6
+  if (!window.confirm('Bạn có chắc muốn xoá tất cả môn học?')) return;
+  if (editIndex !== null) exitEditMode();
+  setSubjects([]);
+});
 
 tbody.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-action]');

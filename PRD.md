@@ -66,4 +66,4 @@ tích lũy (GPA) hệ 4 và hệ 10, cùng xếp loại học lực. Không cầ
 | 2   | Quy đổi điểm    | F2  | F1        | [x] Xong (chờ UAT) |
 | 3   | Tính GPA        | F3  | F2        | [x] Xong (chờ UAT) |
 | 4   | Sửa/xoá môn     | F4  | F1        | [x] Xong (chờ UAT) |
-| 5   | Lưu dữ liệu     | F5  | F1, F4    | [ ] Chưa làm |
+| 5   | Lưu dữ liệu     | F5  | F1, F4    | [x] Xong (chờ UAT) |

@@ -3,14 +3,14 @@
 _Cập nhật lần cuối: 2026-10-07_
 
 ## Giai đoạn hiện tại
-**Giai đoạn 3 – Cài đặt & kiểm thử tự động** (F1–F4 xong, tiếp theo F5)
+**Giai đoạn 4 – Kiểm thử người dùng (UAT)** (chờ người dùng kiểm thử)
 
 | # | Giai đoạn | Trạng thái | Ghi chú |
 |---|-----------|------------|---------|
 | 1 | Yêu cầu (`PRD.md`) | ✅ Xong | |
 | 2 | Thiết kế (`DESIGN.md`, Mermaid) | ✅ Xong | Người dùng đã duyệt 2026-10-07 |
-| 3 | Cài đặt & kiểm thử tự động | 🟡 Đang làm | F1–F4 xong |
-| 4 | Kiểm thử người dùng | ⬜ Chưa làm | Người dùng thực hiện |
+| 3 | Cài đặt & kiểm thử tự động | ✅ Xong | F1–F5 xong; 151 test đạt, `npm run build` thành công |
+| 4 | Kiểm thử người dùng | 🟡 Chờ người dùng | Chạy `npm run dev` hoặc `npm run build && npm run preview` |
 | 5 | Deploy Vercel | ⬜ Chưa làm | URL: — |
 
 ## Trạng thái chức năng
@@ -20,7 +20,7 @@ _Cập nhật lần cuối: 2026-10-07_
 | F2 | Quy đổi điểm | ✅ | ✅ | ✅ | ⬜ |
 | F3 | Tính GPA & xếp loại | ✅ | ✅ | ✅ | ⬜ |
 | F4 | Sửa/xoá môn | ✅ | ✅ | ✅ | ⬜ |
-| F5 | Lưu dữ liệu | ✅ | ⬜ | ⬜ | ⬜ |
+| F5 | Lưu dữ liệu | ✅ | ✅ | ✅ | ⬜ |
 
 ## Quyết định kỹ thuật
 | Ngày | Quyết định | Lý do |
@@ -37,6 +37,8 @@ _Cập nhật lần cuối: 2026-10-07_
 | 2026-10-07 | Thao tác thêm/sửa/xoá trên danh sách tách ra `src/subjects.js`, không sửa mảng gốc | Để test được quy ước D5 (tính lại dòng đang sửa khi xoá) mà không cần DOM |
 | 2026-10-07 | Hỏi xác nhận xoá bằng `window.confirm` | Đơn giản, đủ cho yêu cầu PRD F4/F5 |
 | 2026-10-07 | Thêm `jsdom` (dev) và `src/main.dom.test.js` chạy `main.js` trên markup thật của `index.html` | Logic thuần đã có unit test, nhưng phần gắn DOM (chế độ sửa, xác nhận xoá) cũng cần được kiểm tra tự động |
+| 2026-10-07 | `storage.js` nhận đối tượng storage làm tham số, truy cập `localStorage` bọc trong try/catch | Test được không cần trình duyệt; trình duyệt chặn storage thì app vẫn chạy (D7) |
+| 2026-10-07 | Test giao diện dùng storage giả (`vi.stubGlobal`) thay vì localStorage của jsdom | Node 26 có sẵn biến `localStorage` riêng (là `undefined` khi không cấu hình) che mất của jsdom |
 | 2026-10-07 | Làm tròn điểm bằng ký hiệu mũ (`Number(Math.round(x + 'e1') + 'e-1')`) thay vì `Math.round(x * 10) / 10` | Tránh sai số dấu phẩy động, ví dụ 8.45 phải ra 8.5 |
 | 2026-10-07 | Điểm lớn hơn 10 bị báo lỗi kể cả khi làm tròn sẽ ra 10 (ví dụ `10.04`) | PRD yêu cầu điểm trong khoảng 0–10, kiểm tra trên giá trị người dùng nhập |
 | 2026-10-07 | Ô tín chỉ (`type=number`) gõ chữ thì báo "phải là số nguyên", không báo "bỏ trống" | Trình duyệt trả `""` cho cả hai trường hợp; dùng `validity.badInput` để phân biệt |
@@ -48,5 +50,4 @@ _Cập nhật lần cuối: 2026-10-07_
 | 2026-10-07 | Chuyển remote từ `tungdtfgw/gpa-tracker` sang `vitvu/testrepo`, vẫn giữ lịch sử commit | Từ nay push/pull dùng repo mới |
 
 ## Vấn đề tồn đọng
-- Danh sách chưa được lưu (F5), tải lại trang sẽ mất.
 - Thư mục `new-app/` đang trống, chưa rõ mục đích.
