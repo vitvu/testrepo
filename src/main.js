@@ -1,6 +1,7 @@
 // Phần giao diện: gắn sự kiện vào markup có sẵn trong index.html và vẽ bảng.
 // Logic thuần nằm ở các module riêng (validation.js, ...).
 import { validateSubject } from './validation.js';
+import { convertScore } from './grading.js';
 
 const FIELDS = ['name', 'credits', 'score'];
 
@@ -54,14 +55,15 @@ function createCell(text) {
 function renderTable() {
   tbody.replaceChildren(
     ...subjects.map((subject, index) => {
+      const { letter, gpa4 } = convertScore(subject.score);
       const tr = document.createElement('tr');
       tr.append(
         createCell(String(index + 1)),
         createCell(subject.name),
         createCell(String(subject.credits)),
         createCell(subject.score.toFixed(1)),
-        createCell('—'), // Điểm chữ: F2
-        createCell('—'), // Hệ 4: F2
+        createCell(letter),
+        createCell(gpa4.toFixed(1)),
         createCell(''), // Sửa/Xoá: F4
       );
       return tr;

@@ -3,13 +3,13 @@
 _Cập nhật lần cuối: 2026-10-07_
 
 ## Giai đoạn hiện tại
-**Giai đoạn 3 – Cài đặt & kiểm thử tự động** (F1 xong, tiếp theo F2)
+**Giai đoạn 3 – Cài đặt & kiểm thử tự động** (F1, F2 xong, tiếp theo F3)
 
 | # | Giai đoạn | Trạng thái | Ghi chú |
 |---|-----------|------------|---------|
 | 1 | Yêu cầu (`PRD.md`) | ✅ Xong | |
 | 2 | Thiết kế (`DESIGN.md`, Mermaid) | ✅ Xong | Người dùng đã duyệt 2026-10-07 |
-| 3 | Cài đặt & kiểm thử tự động | 🟡 Đang làm | F1 xong |
+| 3 | Cài đặt & kiểm thử tự động | 🟡 Đang làm | F1, F2 xong |
 | 4 | Kiểm thử người dùng | ⬜ Chưa làm | Người dùng thực hiện |
 | 5 | Deploy Vercel | ⬜ Chưa làm | URL: — |
 
@@ -17,7 +17,7 @@ _Cập nhật lần cuối: 2026-10-07_
 | Mã | Chức năng | Thiết kế | Cài đặt | Test tự động | UAT |
 |----|-----------|----------|---------|--------------|-----|
 | F1 | Thêm môn học | ✅ | ✅ | ✅ | ⬜ |
-| F2 | Quy đổi điểm | ✅ | ⬜ | ⬜ | ⬜ |
+| F2 | Quy đổi điểm | ✅ | ✅ | ✅ | ⬜ |
 | F3 | Tính GPA & xếp loại | ✅ | ⬜ | ⬜ | ⬜ |
 | F4 | Sửa/xoá môn | ✅ | ⬜ | ⬜ | ⬜ |
 | F5 | Lưu dữ liệu | ✅ | ⬜ | ⬜ | ⬜ |
@@ -44,5 +44,5 @@ _Cập nhật lần cuối: 2026-10-07_
 | 2026-10-07 | Chuyển remote từ `tungdtfgw/gpa-tracker` sang `vitvu/testrepo`, vẫn giữ lịch sử commit | Từ nay push/pull dùng repo mới |
 
 ## Vấn đề tồn đọng
-- Sau F1, bảng chỉ hiện tên, tín chỉ, điểm; cột Điểm chữ / Hệ 4 hiện "—" đến khi làm F2, cột Hành động trống đến khi làm F4. Danh sách chưa được lưu (F5), tải lại trang sẽ mất.
+- Cột Hành động trống đến khi làm F4. Danh sách chưa được lưu (F5), tải lại trang sẽ mất.
 - Thư mục `new-app/` đang trống, chưa rõ mục đích.
